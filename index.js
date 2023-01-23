@@ -88,33 +88,42 @@ choices,
 return updateQuestionTwo;
 }
 
-
-
-
 function offerOptions() { 
     inquirer.prompt(openQuestion).then(answer => {
         let {opening} = answer;
-    console.log (opening);
+    
     if (opening === 'view all departments') {
-        d.viewAllDepartments();
-    }
+         d.viewAllDepartments();
+         offerOptions();
+          }
+        
     if (opening === 'view all roles') {
         d.viewAllRoles();
+        offerOptions();
+        
     }
     if (opening === 'view all employees') {
         d.viewAllEmployees();
+        offerOptions();
     }
     if (opening === 'add a department') {
         addDepartment();
+        offerOptions();
     }
     if (opening === 'add a role') {
         addRole();
+        offerOptions();
+        
     }
     if (opening === 'add an employee') {
         addEmployee();
+        offerOptions();
+        
     }
     if (opening === 'update an employee role') {
         updateEmployee();
+        offerOptions();
+        
     }
 
 
@@ -171,3 +180,4 @@ function init() {
 }
 
 init();
+

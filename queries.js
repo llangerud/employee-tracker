@@ -1,16 +1,48 @@
-function viewAllDepartments() {
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'pw',
+    database: 'employee_db'
+  });
+  const cTable = require('console.table');
+
+
+
+
+
+function viewAllDepartments () {
 // shows a formatted table showing department names and ids
-console.log('viewall dept function');
+connection.query(
+    'SELECT * FROM `department`',
+    function(err, results) {
+      console.log('\n');
+      console.table(results);
+      console.log ('arrow up to return to the menu');
+    if (err) throw err;
+    });
 }
 
 function viewAllRoles() {
 // shows the job title, role id, the department that role belongs to, and the salary for that role
-console.log('viewall roles function');
+connection.query(
+    'SELECT * FROM `role`',
+    function(err, results) {
+      console.log('\n');
+      console.table(results);
+      console.log ('arrow up to return to the menu');
+    if (err) throw err;
+    });
 }
 
 function viewAllEmployees() {
-// shows a formatted table  with employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-console.log('viewall employees function');
+    connection.query('SELECT * FROM `employee`',
+    function(err, results) {
+      console.log('\n');
+      console.table(results);
+      console.log ('arrow up to return to the menu');
+    if (err) throw err;
+    });
 }
 function addDepartmentToDatabase(department) {
     //adds department to database
