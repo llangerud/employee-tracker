@@ -36,7 +36,7 @@ const roleQuestions = [
     }, {
         type: "input",
         name: "department",
-        message: 'please enter the department id of the role you would like to add'
+        message: 'please enter the department of the role you would like to add'
     },
 
 ];
@@ -53,11 +53,11 @@ const employeeQuestions = [
     }, {
         type: "input",
         name: "role",
-        message: 'please enter the role id of the employee you would like to add'
+        message: 'please enter the role of the employee you would like to add'
     }, {
         type: "input",
         name: "manager",
-        message: 'please enter the managers id for the employee you would like to add'
+        message: 'please enter the manager id of the employee you would like to add or press enter if none'
     },
 
 ];
@@ -65,37 +65,31 @@ const employeeQuestions = [
 
 function updateEmployee() {
     d.viewAllEmployees().then(([allEmps]) => {
-        console.log(allEmps);
         let choices = allEmps.map(emp => emp.first_name + " " + emp.last_name);
-        console.log(choices);
         let updateQuestionOne = [{
                 type: 'list',
                 name: 'name',
                 message: 'Please select an employee to update',
                 choices
             },];
-    d.viewAllRoles().then(([allRoles]) => {
-        console.log(allRoles);
-        let choices = allRoles.map(role => role.title + " "+ role.id);
-        console.log(choices);
-    const updateQuestionTwo = [{
-        type: "list",
-        name: "role",
-        message: `Please select this employee's new role`,
-        choices
-    }];
+        d.viewAllRoles().then(([allRoles]) => {
+            let choices = allRoles.map(role => role.title + " " + role.id);
+            const updateQuestionTwo = [{
+                    type: "list",
+                    name: "role",
+                    message: `Please select this employee's new role`,
+                    choices
+                }];
 
-        inquirer.prompt(updateQuestionOne.concat(updateQuestionTwo)).then(answers => {
-            let {name, role} = answers;
-            d.updateDatabase(name, role);
-            offerOptions();
-        })
+            inquirer.prompt(updateQuestionOne.concat(updateQuestionTwo)).then(answers => {
+                let {name, role} = answers;
+                d.updateDatabase(name, role);
+                offerOptions();
+            })
+        });
     });
-    });
-    
+
 }
-
-
 
 
 function offerOptions() {
@@ -120,7 +114,6 @@ function offerOptions() {
             d.viewAllEmployees().then(([allEmps]) => {
                 console.log("\n");
                 console.table(allEmps);
-                console.log(allEmps);
                 offerOptions();
             });
 
@@ -146,7 +139,7 @@ function offerOptions() {
             viewBudgets();
         }
 
-        
+
     })
 };
 
@@ -165,9 +158,9 @@ function addRole() {
     inquirer.prompt(roleQuestions).then(answers => {
         let {title, salary, department} = answers;
         d.getDepartmentIdFromName(department).then(([department]) => {
-        department = department[0].id;
-        d.addRoleToDatabase(title, salary, department)
-        console.log("\n database updated")
+            department = department[0].id;
+            d.addRoleToDatabase(title, salary, department)
+            console.log("\n database updated")
         });
         offerOptions();
     });
@@ -178,43 +171,36 @@ function addEmployee() {
         let {firstname, lastname, role, manager} = answers;
         d.getRoleIdFromName(role).then(([role]) => {
             role = role[0].id;
-        d.getEmployeeIdFromName(manager).then(([manager]) => {
-            manager = manager[0].id;
-            console.log(manager);
-        d.addEmployeeToDatabase(firstname, lastname, role, manager);
-        console.log("\n database updated");
-    });
-    offerOptions();
-    });
-   
-});
- 
+                d.addEmployeeToDatabase(firstname, lastname, role, manager);
+                console.log("\n database updated");
+                offerOptions(); 
+            });
+           
+        });
+
 };
 
 function viewBudgets() {
     d.viewAllDepartments().then(([allDeps]) => {
-        console.log(allDeps);
         let choices = allDeps.map(dep => dep.name + " " + dep.id);
-        console.log(choices);
         let depList = [{
                 type: 'list',
                 name: 'name',
                 message: 'Please select a department to view total budget',
                 choices
             },];
-            inquirer.prompt(depList).then(answers => {
-                let {name} = answers;
-                d.getDepartmentBudget(name).then(([budgets]) => {
-                    console.log("\n");
-                    console.table(budgets);
-                   
+        inquirer.prompt(depList).then(answers => {
+            let {name} = answers;
+            d.getDepartmentBudget(name).then(([budget]) => {
+                console.log("\n");
+                console.table(budget);
+
                 offerOptions();
             });
         });
 
-});
+    });
 }
-
 
 
 function init() {
@@ -223,4 +209,3 @@ function init() {
 }
 
 init();
-
