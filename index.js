@@ -14,7 +14,7 @@ const openQuestion = [{
             'add a role',
             'add an employee',
             'update an employee role',
-            'view budget by department'
+
         ]
     }];
 
@@ -85,7 +85,9 @@ function updateEmployee() {
                 let {name, role} = answers;
                 d.updateDatabase(name, role);
                 offerOptions();
-            })
+                console.log("\n database updated")
+            });
+            
         });
     });
 
@@ -171,36 +173,14 @@ function addEmployee() {
         let {firstname, lastname, role, manager} = answers;
         d.getRoleIdFromName(role).then(([role]) => {
             role = role[0].id;
-                d.addEmployeeToDatabase(firstname, lastname, role, manager);
-                console.log("\n database updated");
-                offerOptions(); 
-            });
-           
-        });
-
-};
-
-function viewBudgets() {
-    d.viewAllDepartments().then(([allDeps]) => {
-        let choices = allDeps.map(dep => dep.name + " " + dep.id);
-        let depList = [{
-                type: 'list',
-                name: 'name',
-                message: 'Please select a department to view total budget',
-                choices
-            },];
-        inquirer.prompt(depList).then(answers => {
-            let {name} = answers;
-            d.getDepartmentBudget(name).then(([budget]) => {
-                console.log("\n");
-                console.table(budget);
-
-                offerOptions();
-            });
+            d.addEmployeeToDatabase(firstname, lastname, role, manager);
+            console.log("\n database updated");
+            offerOptions();
         });
 
     });
-}
+
+};
 
 
 function init() {

@@ -23,7 +23,7 @@ function addRoleToDatabase(title, salary, department) {
 }
 function addEmployeeToDatabase(firstname, lastname, role, manager) {
     if (manager === "") {
-      manager = 'null'
+        manager = 'null'
     }
     let addEmployee = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES' + ' ' + '(' + '"' + `${firstname}` + '"' + ',' + '"' + `${lastname}` + '"' + ',' + `${role}` + ',' + `${manager}` + ')';
     return connection.promise().query(addEmployee);
@@ -34,9 +34,7 @@ function updateDatabase(employee, role) { // updates the database with the selec
     let last_name = employee.substring(employee.indexOf(' ') + 1);
     let role_id = parseInt(role.substring(role.indexOf(' ') + 1));
     let update = `UPDATE employee SET role_id = ${role_id} WHERE first_name = "${first_name}" AND last_name = "${last_name}"`
-    connection.query(update);
-
-    console.log("\n database updated")
+    return connection.promise().query(update);
 }
 
 function getDepartmentIdFromName(department) {
@@ -53,14 +51,6 @@ function getEmployeeIdFromName(manager) {
     return connection.promise().query(`SELECT id FROM employee WHERE first_name = "${first_name}" AND last_name = ${last_name}`);
 }
 
-function getDepartmentBudget(department) {
-    let department_id = parseInt(department.substring(department.indexOf(' ') + 1));
-    return connection.promise().query(`SELECT * FROM role WHERE department_id = ${department_id}`);
-
-}
-
-//SELECT SUM (salary) FROM role WHERE department_id = ${department_id}
-// (`SELECT * FROM role WHERE department_id = ${department_id}`);
 
 module.exports = {
     viewAllDepartments,
@@ -72,6 +62,5 @@ module.exports = {
     addEmployeeToDatabase,
     getDepartmentIdFromName,
     getRoleIdFromName,
-    getEmployeeIdFromName,
-    getDepartmentBudget
+    getEmployeeIdFromName
 }

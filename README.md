@@ -1,7 +1,9 @@
 # Interactive Employee Database
   ![badge](https://img.shields.io/badge/license-MIT-blue.svg)
   ## Description
-  This application uses Node (specifically, inquirer and mysql) to create an employee database using input from the command line.
+  This application uses Node (specifically, inquirer and mysql) to create an employee database using input from the command line. See the demo <a href = "https://drive.google.com/file/d/16dQqrMPMjbvfEikiMqw-FcCGP2l6CDmB/view">here</a>.
+
+  <img src= "./screenshot.jpg">
 
   ## Table of Contents
   * <a href="#installation">Installation</a>
