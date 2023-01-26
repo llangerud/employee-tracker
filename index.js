@@ -75,7 +75,7 @@ function updateEmployee() {
             },];
     d.viewAllRoles().then(([allRoles]) => {
         console.log(allRoles);
-        let choices = allRoles.map(role => role.title);
+        let choices = allRoles.map(role => role.title + " "+ role.id);
         console.log(choices);
     const updateQuestionTwo = [{
         type: "list",
@@ -146,6 +146,7 @@ function addDepartment() {
     inquirer.prompt(departmentQuestion).then(answer => {
         let {department} = answer;
         d.addDepartmentToDatabase(department);
+        console.log("\n database updated")
         offerOptions();
     });
 
@@ -155,6 +156,7 @@ function addRole() {
     inquirer.prompt(roleQuestions).then(answers => {
         let {title, salary, department} = answers;
         d.addRoleToDatabase(title, salary, department);
+        console.log("\n database updated")
         offerOptions();
     })
 };
@@ -162,6 +164,7 @@ function addEmployee() {
     inquirer.prompt(employeeQuestions).then(answers => {
         let {firstname, lastname, role, manager} = answers;
         d.addEmployeeToDatabase(firstname, lastname, role, manager);
+        console.log("database updated")
         offerOptions();
     })
 };
